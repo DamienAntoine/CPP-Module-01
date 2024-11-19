@@ -2,6 +2,13 @@
 
 Harl::Harl() {}
 
+const std::pair<std::string, Harl::MemberFuncPtr> Harl::functions[4] = {
+	{"DEBUG", &Harl::debug},
+	{"INFO", &Harl::info},
+	{"WARNING", &Harl::warning},
+	{"ERROR", &Harl::error}
+};
+
 void	Harl::debug()
 {
 	std::cout
@@ -32,17 +39,15 @@ void	Harl::error()
 
 void	Harl::complain(std::string level)
 {
-	if (level == "DEBUG")
-		debug();
-	else if (level == "INFO")
-		info();
-	else if (level == "WARNING")
-		warning();
-	else if (level == "ERROR")
-		error();
-	else
-		std::cout
-			<< "Invalid level: "
-			<< level
-			<< std::endl;
+	int	i = 0;
+
+	while (i < 4)
+	{
+		if (functions[i].first == level)
+		{
+			(this->*functions[i].second)();
+			return ;
+		}
+		i++;
+	}
 }
